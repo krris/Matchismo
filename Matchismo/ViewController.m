@@ -7,10 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "Deck.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int flipCount;
+@property Deck *deck;
 @end
 
 @implementation ViewController
@@ -33,6 +35,12 @@
         [sender setTitle:@"A♣︎" forState:UIControlStateNormal];
     }
     self.flipCount++;
+}
+
+- (Deck *) deck
+{
+    if (!_deck) _deck = [[Deck alloc] init];
+    return _deck;
 }
 
 @end
