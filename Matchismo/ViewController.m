@@ -31,15 +31,27 @@
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
-    int cardIndex = [self.cardButtons indexOfObject:sender];
+    NSUInteger cardIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:cardIndex];
+    [self updateUI];
+}
+
+- (IBAction)touchResetButton {
+    NSLog(@"[touch] Reset button.");
+    [self resetGame];
+}
+
+- (void) resetGame
+{
+    _deck = nil;
+    _game = nil;
     [self updateUI];
 }
 
 - (void) updateUI
 {
     for (UIButton *cardButton in self.cardButtons) {
-        int cardIndex = [self.cardButtons indexOfObject:cardButton];
+        NSUInteger cardIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardIndex];
         [cardButton  setTitle:[self titleForCard:card]
                      forState:UIControlStateNormal];
@@ -47,7 +59,7 @@
                               forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
     }
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.score];
 }
 
 - (NSString *) titleForCard:(Card *)card
