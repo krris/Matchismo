@@ -14,9 +14,11 @@
 // designated initializer
 - (instancetype) initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 
+- (void)chooseCardAtIndex:(NSUInteger)index threeCardsMode:(BOOL)isThreeCardsMode;
 - (void) chooseCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly) NSString* lastConsideration;
 
 @end

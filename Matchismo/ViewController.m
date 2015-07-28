@@ -18,6 +18,8 @@
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (strong, nonatomic) IBOutlet UISwitch *modeSwitch;
+@property (strong, nonatomic) IBOutlet UILabel *lastConsideration;
 @end
 
 @implementation ViewController
@@ -32,7 +34,9 @@
 - (IBAction)touchCardButton:(UIButton *)sender
 {
     NSUInteger cardIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:cardIndex];
+//    [self.game chooseCardAtIndex:cardIndex];
+    _flipCount++;
+    [self.game chooseCardAtIndex:cardIndex threeCardsMode:self.modeSwitch.on];
     [self updateUI];
 }
 
@@ -45,6 +49,7 @@
 {
     _deck = nil;
     _game = nil;
+    _flipCount = 0;
     [self updateUI];
 }
 
@@ -60,6 +65,13 @@
         cardButton.enabled = !card.isMatched;
     }
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.score];
+    self.lastConsideration.text = _game.lastConsideration;
+    
+    if (self.flipCount != 0) {
+        self.modeSwitch.enabled = NO;
+    } else {
+        self.modeSwitch.enabled = YES;
+    }
 }
 
 - (NSString *) titleForCard:(Card *)card
